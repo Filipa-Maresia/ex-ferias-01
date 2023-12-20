@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 1 - Cria uma ligação à api https://cat-fact.herokuapp.com/facts/ com os 2 métodos que falamos: XMLHTTPRequest e fetch;
+
+  // XMLHttpRequest
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://cat-fact.herokuapp.com/facts/");
+      xhr.responseType = "json";
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const data = xhr.response;
+          logCatFacts(data);
+        } else {
+                reject(xhr.status);
+            }
+      };
+
+      xhr.send();
+
+  // Fetch
+
+    fetch("https://cat-fact.herokuapp.com/facts/")
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(`Erro! ${error.message}`));
+
+  // 2 - Façam a resolução da ligação à API com uma promise, e façam resolve com o que é obtido pela API.
+
+    async function getCatFacts() {
+      const promise = new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://cat-fact.herokuapp.com/facts/");
+
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                const jsonResponse = xhr.response;
+                resolve(jsonResponse);
+            } else {
+                reject(xhr.status);
+            }
+        }
+
+        xhr.onerror = () => {
+            reject("Not able to show!");
+        };
+
+        xmlhttp.responseType = "json";
+        xmlhttp.send();
+      });
+
+      try {
+        const getFactsPhrase = await promise;
+        console.log(getFactsPhrase);
+      } catch (error) {
+        console.error("Not able to show!");
+      }
+    }
+
+// 3 - Façam uma função que faça console.log de todas as frases que estão na propriedade text.
+
+
+
+      function logCatFacts(data) {
+        data.forEach((catFact) => {
+          console.log(catFact.text);
+        });
+      }
+
+
+    </script>
+  </body>
+</html>
+
